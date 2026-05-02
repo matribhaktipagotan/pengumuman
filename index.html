@@ -4,6 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengumuman Kelulusan - MA Tri Bhakti</title>
+   /* ========== COUNTDOWN ========== */
+.countdown-section {
+    text-align: center;
+    margin: 20px 0 30px;
+}
+
+.countdown-label {
+    font-size: 13px;
+    color: #6B8E6B;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.countdown-box {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.countdown-item {
+    background: var(--putih);
+    border-radius: 10px;
+    padding: 12px 10px;
+    min-width: 60px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.countdown-number {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--hijau-tua);
+    line-height: 1;
+}
+
+.countdown-unit {
+    font-size: 10px;
+    color: #999;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 4px;
+}
+
+.countdown-done {
+    font-size: 16px;
+    color: var(--hijau);
+    font-weight: 600;
+}
+
+.form-locked {
+    opacity: 0.5;
+    pointer-events: none;
+}
     <style>
         :root {
             --hijau-tua: #1B5E20;
@@ -326,6 +380,29 @@
                 </div>
                 <button type="submit" class="btn">🔍 Cek Kelulusan</button>
             </form>
+            <!-- COUNTDOWN -->
+<div class="countdown-section" id="countdownSection">
+    <p class="countdown-label">⏳ Pengumuman Dimulai Dalam</p>
+    <div class="countdown-box" id="countdownBox">
+        <div class="countdown-item">
+            <div class="countdown-number" id="cdHari">00</div>
+            <div class="countdown-unit">Hari</div>
+        </div>
+        <div class="countdown-item">
+            <div class="countdown-number" id="cdJam">00</div>
+            <div class="countdown-unit">Jam</div>
+        </div>
+        <div class="countdown-item">
+            <div class="countdown-number" id="cdMenit">00</div>
+            <div class="countdown-unit">Menit</div>
+        </div>
+        <div class="countdown-item">
+            <div class="countdown-number" id="cdDetik">00</div>
+            <div class="countdown-unit">Detik</div>
+        </div>
+    </div>
+    <p class="countdown-done" id="countdownDone" style="display:none;">✅ Pengumuman sudah dapat diakses! Silakan cek kelulusan di bawah.</p>
+</div>
         </div>
 
         <div class="footer">
@@ -392,6 +469,42 @@
         ];
 
         // ========== ELEMEN ==========
+        // ========== COUNTDOWN ==========
+const targetDate = new Date('2025-05-04T00:01:00'); // Senin, 4 Mei 2025 jam 00:01 WIB
+const countdownSection = document.getElementById('countdownSection');
+const countdownBox = document.getElementById('countdownBox');
+const countdownDone = document.getElementById('countdownDone');
+const searchForm = document.getElementById('searchForm');
+
+function updateCountdown() {
+    const now = new Date();
+    const diff = targetDate - now;
+
+    if (diff <= 0) {
+        // Waktunya sudah tiba
+        countdownBox.style.display = 'none';
+        countdownDone.style.display = 'block';
+        searchForm.classList.remove('form-locked');
+        return;
+    }
+
+    // Form terkunci sebelum waktunya
+    searchForm.classList.add('form-locked');
+
+    const hari = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const jam = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const menit = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const detik = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById('cdHari').textContent = String(hari).padStart(2,'0');
+    document.getElementById('cdJam').textContent = String(jam).padStart(2,'0');
+    document.getElementById('cdMenit').textContent = String(menit).padStart(2,'0');
+    document.getElementById('cdDetik').textContent = String(detik).padStart(2,'0');
+}
+
+// Jalankan countdown
+updateCountdown();
+setInterval(updateCountdown, 1000);
         const body = document.getElementById('mainBody');
         const formPage = document.getElementById('formPage');
         const resultPage = document.getElementById('resultPage');
