@@ -4,37 +4,635 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengumuman Kelulusan - MA Tri Bhakti</title>
-   /* ========== COUNTDOWN ========== */
-.countdown-section {
-    text-align: center;
-    margin: 20px 0 30px;
-}
+    <style>
+        :root {
+            --hijau-tua: #1B5E20;
+            --hijau: #2E7D32;
+            --hijau-muda: #E8F5E9;
+            --hijau-sangat-muda: #F1F8E9;
+            --putih: #FFFFFF;
+            --abu-teks: #555;
+            --abu-muda: #F5F5F5;
+            --merah-tua: #B71C1C;
+            --merah-muda: #FFEBEE;
+            --emas: #C9A84C;
+            --shadow: 0 4px 20px rgba(0,0,0,0.06);
+            --radius: 14px;
+        }
 
-.countdown-label {
-    font-size: 13px;
-    color: #6B8E6B;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.countdown-box {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-}
+        body {
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--hijau-sangat-muda);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: background 0.6s ease;
+        }
 
-.countdown-item {
-    background: var(--putih);
-    border-radius: 10px;
-    padding: 12px 10px;
-    min-width: 60px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
+        body.bg-lulus { background: var(--hijau-muda); }
+        body.bg-tidak-lulus { background: var(--merah-muda); }
+        body.bg-not-found { background: #FFF8E1; }
 
-.countdown-number {
-    font-size: 28px;
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* ========== HEADER ========== */
+        .header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .logo-container {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--putih);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+            padding: 8px;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .logo-placeholder {
+            font-size: 40px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            color: var(--hijau-tua);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .header .subtitle {
+            font-size: 13px;
+            color: #6B8E6B;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* ========== COUNTDOWN ========== */
+        .countdown-section {
+            text-align: center;
+            margin: 20px 0 20px;
+        }
+
+        .countdown-label {
+            font-size: 13px;
+            color: #6B8E6B;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .countdown-box {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: var(--putih);
+            border-radius: 10px;
+            padding: 12px 10px;
+            min-width: 60px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .countdown-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--hijau-tua);
+            line-height: 1;
+        }
+
+        .countdown-unit {
+            font-size: 10px;
+            color: #999;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .countdown-done {
+            font-size: 16px;
+            color: var(--hijau);
+            font-weight: 600;
+        }
+
+        .form-locked {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* ========== CARD ========== */
+        .card {
+            background: var(--putih);
+            border-radius: var(--radius);
+            padding: 30px 26px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--abu-teks);
+            margin-bottom: 7px;
+            letter-spacing: 0.4px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid #E0E0E0;
+            border-radius: 10px;
+            font-size: 15px;
+            background: #FAFAFA;
+            transition: all 0.25s;
+            outline: none;
+            font-family: inherit;
+        }
+
+        input:focus {
+            border-color: var(--hijau);
+            box-shadow: 0 0 0 4px rgba(46,125,50,0.08);
+            background: var(--putih);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--hijau);
+            color: var(--putih);
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: all 0.25s;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            background: var(--hijau-tua);
+            box-shadow: 0 6px 18px rgba(27,94,32,0.25);
+            transform: translateY(-1px);
+        }
+
+        /* ========== HASIL ========== */
+        .result-card {
+            background: var(--putih);
+            border-radius: var(--radius);
+            padding: 36px 26px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .result-icon {
+            font-size: 60px;
+            margin-bottom: 8px;
+            animation: popIn 0.5s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            60% { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        .result-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .title-lulus { color: var(--hijau-tua); }
+        .title-tidak { color: var(--merah-tua); }
+        .title-notfound { color: #E65100; }
+
+        .result-subtitle {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 20px;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            background: #FAFAFA;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .info-table td {
+            padding: 13px 18px;
+            border-bottom: 1px solid #F0F0F0;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .info-table td:first-child {
+            font-weight: 600;
+            color: #777;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: 40%;
+        }
+
+        .info-table td:last-child {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 10px 32px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 1.5px;
+            margin: 10px 0;
+        }
+
+        .badge-lulus {
+            background: var(--hijau);
+            color: var(--putih);
+        }
+
+        .badge-tidak {
+            background: var(--merah-tua);
+            color: var(--putih);
+        }
+
+        .msg {
+            margin-top: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .msg-lulus { color: var(--hijau); }
+        .msg-tidak { color: var(--merah-tua); }
+        .msg-notfound { color: #E65100; }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 24px;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            border: 1.5px solid #DDD;
+            background: var(--putih);
+            color: #666;
+            transition: all 0.25s;
+            font-family: inherit;
+        }
+
+        .back-btn:hover {
+            border-color: #BBB;
+            color: #333;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #AAA;
+            letter-spacing: 0.5px;
+        }
+
+        /* ========== CONFETTI ========== */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body id="mainBody">
+
+    <!-- ========== HALAMAN PENCARIAN ========== -->
+    <div class="container" id="formPage">
+        <div class="header">
+            <div class="logo-container">
+                <img id="logoImg" 
+                     src="https://raw.githubusercontent.com/matribhaktipagotan/pengumuman/main/WhatsApp_Image_2025-11-14_at_14.21.08-removebg-preview.png" 
+                     alt="Logo MA Tri Bhakti" 
+                     onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='block';">
+                <span class="logo-placeholder" id="logoFallback" style="display:none;">🕌</span>
+            </div>
+            <h1>MA TRI BHAKTI</h1>
+            <p class="subtitle">Pengumuman Kelulusan • 2025/2026</p>
+        </div>
+
+        <!-- COUNTDOWN -->
+        <div class="countdown-section" id="countdownSection">
+            <p class="countdown-label">⏳ Pengumuman Dimulai Dalam</p>
+            <div class="countdown-box" id="countdownBox">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="cdHari">00</div>
+                    <div class="countdown-unit">Hari</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="cdJam">00</div>
+                    <div class="countdown-unit">Jam</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="cdMenit">00</div>
+                    <div class="countdown-unit">Menit</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="cdDetik">00</div>
+                    <div class="countdown-unit">Detik</div>
+                </div>
+            </div>
+            <p class="countdown-done" id="countdownDone" style="display:none;">✅ Pengumuman sudah dapat diakses! Silakan cek kelulusan di bawah.</p>
+        </div>
+
+        <div class="card">
+            <form id="searchForm">
+                <div class="form-group">
+                    <label for="nisnInput">Nomor Induk Siswa Nasional (NISN)</label>
+                    <input type="text" id="nisnInput" placeholder="Masukkan 10 digit NISN" maxlength="10" required>
+                </div>
+                <button type="submit" class="btn">🔍 Cek Kelulusan</button>
+            </form>
+        </div>
+
+        <div class="footer">
+            © 2025 MA Tri Bhakti • Seluruh Hak Cipta Dilindungi
+        </div>
+    </div>
+
+    <!-- ========== HALAMAN HASIL ========== -->
+    <div class="container" id="resultPage" style="display:none;">
+        <div id="resultContent"></div>
+        <button class="back-btn" onclick="kembali()">← Kembali ke Pencarian</button>
+        <div class="footer" style="margin-top:18px;">© 2025 MA Tri Bhakti • Seluruh Hak Cipta Dilindungi</div>
+    </div>
+
+    <!-- ========== CONFETTI CONTAINER ========== -->
+    <div class="confetti-container" id="confettiBox"></div>
+
+    <script>
+        // ========== DATA SISWA ==========
+        const dataSiswa = [
+            // Kelas 12 A
+            {nama:"SEPTIANA RIZKA AINUS SIVA", nisn:"0079012852", tempat:"MADIUN", tgl:"2007-09-22", status:"LULUS", jk:"Perempuan"},
+            {nama:"ALFI MARIYATUL LUTHFIYAH", nisn:"0084271445", tempat:"MADIUN", tgl:"2008-04-17", status:"LULUS", jk:"Perempuan"},
+            {nama:"SYAHAR IZZAT MIRZAQI", nisn:"0076986837", tempat:"MADIUN", tgl:"2007-05-31", status:"LULUS", jk:"Laki-laki"},
+            {nama:"HANIFAH MUZYAYAROH", nisn:"0077430647", tempat:"MADIUN", tgl:"2007-12-30", status:"LULUS", jk:"Perempuan"},
+            {nama:"WAFIQ AZIZAH", nisn:"0083863865", tempat:"KOTA MADIUN", tgl:"2008-07-12", status:"LULUS", jk:"Perempuan"},
+            {nama:"NUR ILHAM SULANI", nisn:"0077539016", tempat:"CIMAHI", tgl:"2007-08-28", status:"LULUS", jk:"Laki-laki"},
+            {nama:"SYIFA STERENA", nisn:"0087364839", tempat:"MADIUN", tgl:"2008-03-13", status:"LULUS", jk:"Perempuan"},
+            {nama:"ZULFA KHOIRUNISA'", nisn:"0073463228", tempat:"MADIUN", tgl:"2007-09-19", status:"LULUS", jk:"Perempuan"},
+            {nama:"LUTFIATUL WAHDANIYAH", nisn:"0072700661", tempat:"KOTA MADIUN", tgl:"2007-04-24", status:"LULUS", jk:"Perempuan"},
+            {nama:"AHMAD SHOLIHIN", nisn:"0073824216", tempat:"MADIUN", tgl:"2007-04-24", status:"LULUS", jk:"Laki-laki"},
+            {nama:"SIGIT WAHYU ANENDRA", nisn:"0069369447", tempat:"MADIUN", tgl:"2006-11-13", status:"LULUS", jk:"Laki-laki"},
+            {nama:"YESICCA PUTRI NUR'AINI", nisn:"0087337470", tempat:"MADIUN", tgl:"2008-06-19", status:"LULUS", jk:"Perempuan"},
+            {nama:"YUSRINA LUBBA", nisn:"0083618236", tempat:"MADIUN", tgl:"2008-01-01", status:"LULUS", jk:"Perempuan"},
+            {nama:"AKBAR FAHTUR RAHMAN AZHARI", nisn:"0085975733", tempat:"MADIUN", tgl:"2008-12-11", status:"LULUS", jk:"Laki-laki"},
+            {nama:"ITA SHEVIRA NURAINI", nisn:"0082096759", tempat:"KOTA MADIUN", tgl:"2008-04-26", status:"LULUS", jk:"Perempuan"},
+            {nama:"MUHAMMAD FADLILA AKBAR", nisn:"0077054338", tempat:"NGAWI", tgl:"2007-12-19", status:"LULUS", jk:"Laki-laki"},
+            {nama:"TINA DWI YULIANA", nisn:"0074341248", tempat:"MADIUN", tgl:"2007-07-17", status:"LULUS", jk:"Perempuan"},
+            {nama:"MUHAMMAD KAFFA NAJA AL RIDHO", nisn:"0083144355", tempat:"KOTA MADIUN", tgl:"2008-03-10", status:"LULUS", jk:"Laki-laki"},
+            {nama:"ANNISAU SHOLIHAH", nisn:"0081857091", tempat:"KOTA MADIUN", tgl:"2008-07-07", status:"LULUS", jk:"Perempuan"},
+            {nama:"MUHAMMAD RIDHO RAMDHANI", nisn:"0078280122", tempat:"PONOROGO", tgl:"2007-09-16", status:"LULUS", jk:"Laki-laki"},
+            // Kelas 12 B
+            {nama:"FARIDA SUCI NOVITASARI", nisn:"0074258571", tempat:"MADIUN", tgl:"2007-05-22", status:"LULUS", jk:"Perempuan"},
+            {nama:"RIFA NURLATIFAH", nisn:"0076986791", tempat:"KEDIRI", tgl:"2007-04-01", status:"LULUS", jk:"Perempuan"},
+            {nama:"WIDYA RAHMA MAULIDA", nisn:"0074578033", tempat:"MADIUN", tgl:"2007-12-26", status:"LULUS", jk:"Perempuan"},
+            {nama:"MUHAMMAD ZULFIKAR NUR HUDA", nisn:"0086763740", tempat:"MADIUN", tgl:"2008-02-07", status:"LULUS", jk:"Laki-laki"},
+            {nama:"FITRI NAVILATUL MUAWANAH", nisn:"0071915233", tempat:"MADIUN", tgl:"2007-10-13", status:"LULUS", jk:"Perempuan"},
+            {nama:"ASHWIN EKHA ARDHIANSYAH", nisn:"0083287312", tempat:"MADIUN", tgl:"2008-02-28", status:"LULUS", jk:"Laki-laki"},
+            {nama:"HANINDHIYA HIDAYATUS SHOLIHAH", nisn:"0074627675", tempat:"MADIUN", tgl:"2007-05-15", status:"LULUS", jk:"Perempuan"},
+            {nama:"DZAKIA FADLLIN MAULA", nisn:"0081358787", tempat:"MADIUN", tgl:"2008-05-15", status:"LULUS", jk:"Perempuan"},
+            {nama:"RESSA OKTAFIA NINGRUM", nisn:"0078328950", tempat:"MADIUN", tgl:"2007-10-23", status:"LULUS", jk:"Perempuan"},
+            {nama:"MUHAMMAD BILAL ARROSYID ALI", nisn:"0079839695", tempat:"MADIUN", tgl:"2007-08-20", status:"LULUS", jk:"Laki-laki"},
+            {nama:"SAIFULLAH PANCA ANUGRAH", nisn:"0083454957", tempat:"SURAKARTA", tgl:"2008-04-24", status:"LULUS", jk:"Laki-laki"},
+            {nama:"AHMAD RIZAL TAMAMI", nisn:"0083287715", tempat:"MADIUN", tgl:"2008-02-07", status:"LULUS", jk:"Laki-laki"},
+            {nama:"MUHAMMAD ASYIK AUNA LANA", nisn:"0085791800", tempat:"GROBOGAN", tgl:"2008-03-15", status:"LULUS", jk:"Laki-laki"},
+            {nama:"MUHAMMAD FAHRU SHOPARUDIN", nisn:"0085223932", tempat:"KEBUMEN", tgl:"2008-03-02", status:"LULUS", jk:"Laki-laki"},
+            {nama:"FATIN NUR ZHARIFAH", nisn:"0079327442", tempat:"MADIUN", tgl:"2007-06-25", status:"LULUS", jk:"Perempuan"},
+            {nama:"MEY MAULINASARI", nisn:"0089363866", tempat:"MADIUN", tgl:"2008-05-03", status:"LULUS", jk:"Perempuan"},
+            {nama:"DINI MEGA LESTARI", nisn:"0077168636", tempat:"BULUNGAN", tgl:"2007-12-20", status:"LULUS", jk:"Perempuan"},
+            {nama:"LAMIYA MUWAKHIDAH", nisn:"0078932455", tempat:"MADIUN", tgl:"2007-09-03", status:"LULUS", jk:"Perempuan"},
+            {nama:"MUHAMMAD HISYAM TAMAMI", nisn:"0084856557", tempat:"MADIUN", tgl:"2008-09-05", status:"LULUS", jk:"Laki-laki"},
+            {nama:"FIRYAL KHANZA NABILA", nisn:"3071328084", tempat:"MAGETAN", tgl:"2007-12-12", status:"LULUS", jk:"Perempuan"},
+            {nama:"REVA AMELIA", nisn:"0062487415", tempat:"DUMAI", tgl:"2006-07-22", status:"LULUS", jk:"Perempuan"}
+        ];
+
+        // ========== ELEMEN ==========
+        const body = document.getElementById('mainBody');
+        const formPage = document.getElementById('formPage');
+        const resultPage = document.getElementById('resultPage');
+        const resultContent = document.getElementById('resultContent');
+        const confettiBox = document.getElementById('confettiBox');
+
+        // ========== COUNTDOWN ==========
+        const targetDate = new Date('2025-05-04T00:01:00');
+        const countdownSection = document.getElementById('countdownSection');
+        const countdownBox = document.getElementById('countdownBox');
+        const countdownDone = document.getElementById('countdownDone');
+        const searchForm = document.getElementById('searchForm');
+
+        function updateCountdown() {
+            const now = new Date();
+            const diff = targetDate - now;
+
+            if (diff <= 0) {
+                countdownBox.style.display = 'none';
+                countdownDone.style.display = 'block';
+                searchForm.classList.remove('form-locked');
+                return;
+            }
+
+            searchForm.classList.add('form-locked');
+
+            const hari = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const jam = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const menit = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const detik = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('cdHari').textContent = String(hari).padStart(2,'0');
+            document.getElementById('cdJam').textContent = String(jam).padStart(2,'0');
+            document.getElementById('cdMenit').textContent = String(menit).padStart(2,'0');
+            document.getElementById('cdDetik').textContent = String(detik).padStart(2,'0');
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // ========== SUBMIT FORM ==========
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nisn = document.getElementById('nisnInput').value.trim();
+            const found = dataSiswa.find(s => s.nisn === nisn);
+
+            formPage.style.display = 'none';
+            resultPage.style.display = 'block';
+            confettiBox.innerHTML = '';
+
+            if (found) {
+                if (found.status === 'LULUS') {
+                    tampilkanLulus(found);
+                } else {
+                    tampilkanTidakLulus(found);
+                }
+            } else {
+                tampilkanNotFound();
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ========== TAMPILAN LULUS ==========
+        function tampilkanLulus(s) {
+            body.className = 'bg-lulus';
+            resultContent.innerHTML = `
+                <div class="result-card">
+                    <div class="result-icon">🎓</div>
+                    <h2 class="result-title title-lulus">Selamat!</h2>
+                    <p class="result-subtitle">Ananda dinyatakan</p>
+                    <table class="info-table">
+                        <tr><td>Nama Lengkap</td><td>${s.nama}</td></tr>
+                        <tr><td>NISN</td><td>${s.nisn}</td></tr>
+                        <tr><td>Tempat Lahir</td><td>${s.tempat}</td></tr>
+                        <tr><td>Tanggal Lahir</td><td>${formatTanggal(s.tgl)}</td></tr>
+                        <tr><td>Jenis Kelamin</td><td>${s.jk}</td></tr>
+                    </table>
+                    <div class="badge badge-lulus">LULUS</div>
+                    <p class="msg msg-lulus">Barakallah! Semoga ilmu yang didapat menjadi berkah dan bekal untuk masa depan yang gemilang. ✨</p>
+                </div>
+            `;
+            luncurkanConfetti();
+        }
+
+        // ========== TAMPILAN TIDAK LULUS ==========
+        function tampilkanTidakLulus(s) {
+            body.className = 'bg-tidak-lulus';
+            resultContent.innerHTML = `
+                <div class="result-card">
+                    <div class="result-icon">🤲</div>
+                    <h2 class="result-title title-tidak">Mohon Maaf</h2>
+                    <p class="result-subtitle">Hasil belum memenuhi kriteria kelulusan</p>
+                    <table class="info-table">
+                        <tr><td>Nama Lengkap</td><td>${s.nama}</td></tr>
+                        <tr><td>NISN</td><td>${s.nisn}</td></tr>
+                        <tr><td>Tempat Lahir</td><td>${s.tempat}</td></tr>
+                        <tr><td>Tanggal Lahir</td><td>${formatTanggal(s.tgl)}</td></tr>
+                        <tr><td>Jenis Kelamin</td><td>${s.jk}</td></tr>
+                    </table>
+                    <div class="badge badge-tidak">BELUM LULUS</div>
+                    <p class="msg msg-tidak">Jangan berputus asa. Setiap usaha bernilai di sisi Allah. Masih ada jalan dan kesempatan lain. ✨</p>
+                </div>
+            `;
+        }
+
+        // ========== TAMPILAN TIDAK DITEMUKAN ==========
+        function tampilkanNotFound() {
+            body.className = 'bg-not-found';
+            resultContent.innerHTML = `
+                <div class="result-card">
+                    <div class="result-icon">🔍</div>
+                    <h2 class="result-title title-notfound">Data Tidak Ditemukan</h2>
+                    <p class="result-subtitle">NISN tidak terdaftar dalam database kami</p>
+                    <p class="msg msg-notfound">Silakan periksa kembali NISN yang dimasukkan. Pastikan 10 digit sudah benar. Jika masih terkendala, hubungi panitia madrasah.</p>
+                </div>
+            `;
+        }
+
+        // ========== KEMBALI ==========
+        function kembali() {
+            formPage.style.display = 'block';
+            resultPage.style.display = 'none';
+            body.className = '';
+            document.getElementById('nisnInput').value = '';
+            confettiBox.innerHTML = '';
+        }
+
+        // ========== FORMAT TANGGAL ==========
+        function formatTanggal(t) {
+            const bulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+            const [y,m,d] = t.split('-');
+            return `${parseInt(d)} ${bulan[parseInt(m)-1]} ${y}`;
+        }
+
+        // ========== CONFETTI ==========
+        function luncurkanConfetti() {
+            const warna = ['#2E7D32','#4CAF50','#FFD54F','#FFB300','#FFFFFF','#81C784','#A5D6A7'];
+            for (let i=0; i<80; i++) {
+                const el = document.createElement('div');
+                el.classList.add('confetti');
+                el.style.left = Math.random()*100+'%';
+                el.style.background = warna[Math.floor(Math.random()*warna.length)];
+                el.style.animationDuration = (2+Math.random()*3)+'s';
+                el.style.animationDelay = Math.random()*0.6+'s';
+                el.style.width = (5+Math.random()*10)+'px';
+                el.style.height = (5+Math.random()*10)+'px';
+                confettiBox.appendChild(el);
+            }
+            setTimeout(()=>{ confettiBox.innerHTML = ''; }, 4500);
+        }
+
+        // ========== LOGO FALLBACK ==========
+        window.addEventListener('DOMContentLoaded', ()=>{
+            const logo = document.getElementById('logoImg');
+            if(!logo.src || logo.src === '' || logo.src === window.location.href) {
+                logo.style.display = 'none';
+                document.getElementById('logoFallback').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>    font-size: 28px;
     font-weight: 700;
     color: var(--hijau-tua);
     line-height: 1;
